@@ -25,16 +25,111 @@ Thymeleaf是非常非常可扩展的，它允许自定义的名字来定义一�
 ### 标准表达式：
 大多数Thymeleaf属性允许将它们的值设置为或包含表达式，由于它们使用的方言，我们将其称为标准表达式。这些表达式可以有五种类型.
 #### ${...} : 变量表达式。
-	变量表达式是OGNL表达式:
-	`${session.user.name}`
-	它们作为属性值或作为它们的一部分，取决于属性:
-	`<span th:text="${book.author.name}">`
-	但是不仅在涉及输出的场景中找到变量表达式，而且还可以使用更复杂的处理方式，如:条件，迭代…等等
-	`<li th:each="book : ${books}">`
-	TIPS；${books}从上下文中选择名为books的变量，并在th:each中使用循环将其评估为迭代器。
 #### \*{...} : 选择表达式。
-	选择表达式就像变量表达式一样，它们不是整个上下文变量映射上执行，而是在先前选择的对象。 它们看起来像这样:
-	`*{customer.name}`
 #### \#{...} : 消息 (i18n) 表达式。
 #### \@{...} : 链接 (URL) 表达式。
 #### \~{...} : 片段表达式。
+
+## 标准URL语法：
+Thymeleaf标准方言(称为Standard和SpringStandard)提供了一种在Web应用程序中轻松创建URL的方法，以便它们包含任何所需的URL工件。
+
+### 绝对网址
+绝对URL用于创建到其他服务器的链接。它们需要指定一个协议名称(http://或https://)开头。
+`<a th:href="@{https://www.baidu.com}">百度</a>`
+最后生成的HTML代码如下:
+`<a href="https://www.baidu.com">`
+### 上下文相关URL
+最常用的URL类型是上下文相关的。 这些URL是一旦安装在服务器上，就会与Web应用程序根相关联URL。相当于调用内部接口
+`<a th:href="@{/order/list}">`
+最后生成的HTML代码如下:
+`<a href="/myapp/order/list">`
+### 具有参数的跳转
+`<a th:href="@{/order/list(id=3,name=4)}">`
+最后生成的HTML代码如下:
+`<a href="/myapp/order/list?id=3&name=4">`
+### 使用占位符
+`<a th:href="@{/order/{id}/details(id=3,action='show_all')}">`
+最后生成的HTML代码如下:
+`<a href="/order/3/details?action=show_all">`
+
+## 标签的应用
+### 显示Bean的值
+```
+Java:
+Product product = new Product("花生油", 129, sdf.parse("2018-02-18"));
+model.addAttribute("product", product);
+
+html:
+<div th:text="${product.description}"></div>
+```
+
+### 格式化文本
+```
+对数字进行格式化：
+<div th:text="${'￥' + #numbers.formatDecimal(product.price, 1, 2)}">
+
+对日期进行格式化
+<div th:text="${#dates.format(product.availableFrom, 'yyyy-MM-dd')}">
+```
+
+### 字符串拼接
+```
+ <dd th:text="${'￥' + #numbers.formatDecimal(product.price, 1, 2)}">
+```
+
+### 字符串转义 
+```
+Java:
+String html =  "Welcome to our <b>fantastic</b> grocery store!";
+
+html:
+<div th:text="${html}">Some escaped text</div>
+显示：原String
+
+<div th:utext="${html}">Some unescaped text</div>
+显示：将<b>转为了html标签
+```
+
+### 对list进行迭代
+```
+<tr th:each="product : ${productList}">
+	<!-- 显示行号 -->
+	<td th:text="${productStat.count}">1</td>
+	<td th:text="${product.description}">Red chair</td>
+	<td th:text="${'￥' + #numbers.formatDecimal(product.price, 1, 2)}">￥350</td>
+	<td th:text="${#dates.format(product.availableFrom, 'dd-MM-yyyy')}">2018-02-20</td>
+</tr>
+```
+
+### 条件判断
+```
+th:if 	th:if="${product.price gt 100}"
+th:unless
+
+th:switch
+th:case
+<td th:switch="${product.saleType}">
+	<span th:case="'CG'">闪购</span>
+	<span th:case="'PT'">拼团</span>
+	<span th:case="'CX'">促销</span>
+	<span th:case="*">其它</span>
+</td>
+```
+
+### 表单
+```
+Java:
+@RequestMapping(value="/add",method=RequestMethod.POST)
+public String add(@ModelAttribute UserForm user){
+    String username = user.getUsername();
+    String password = user.getPassword();
+    return username+"__"+password;
+}
+
+html:
+<form action="#" th:action="@{/add}" th:object="${userInfo}" method="post">  
+  <input type="text" th:field="*{username}" />  
+  <input type="text" th:field="*{password}" />  
+  <input type="submit" />  
+</form>
+```
