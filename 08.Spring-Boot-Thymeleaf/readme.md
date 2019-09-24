@@ -34,23 +34,23 @@ Thymeleaf是非常非常可扩展的，它允许自定义的名字来定义一�
 Thymeleaf标准方言(称为Standard和SpringStandard)提供了一种在Web应用程序中轻松创建URL的方法，以便它们包含任何所需的URL工件。
 
 ### 绝对网址
-绝对URL用于创建到其他服务器的链接。它们需要指定一个协议名称(http://或https://)开头。
-`<a th:href="@{https://www.baidu.com}">百度</a>`
-最后生成的HTML代码如下:
-`<a href="https://www.baidu.com">`
+绝对URL用于创建到其他服务器的链接。它们需要指定一个协议名称(http://或https://)开头。</br>
+`<a th:href="@{https://www.baidu.com}">百度</a>`</br>
+最后生成的HTML代码如下:</br>
+`<a href="https://www.baidu.com">`</br>
 ### 上下文相关URL
-最常用的URL类型是上下文相关的。 这些URL是一旦安装在服务器上，就会与Web应用程序根相关联URL。相当于调用内部接口
-`<a th:href="@{/order/list}">`
-最后生成的HTML代码如下:
-`<a href="/myapp/order/list">`
+最常用的URL类型是上下文相关的。 这些URL是一旦安装在服务器上，就会与Web应用程序根相关联URL。相当于调用内部接口</br>
+`<a th:href="@{/order/list}">`</br>
+最后生成的HTML代码如下:</br>
+`<a href="/myapp/order/list">`</br>
 ### 具有参数的跳转
-`<a th:href="@{/order/list(id=3,name=4)}">`
-最后生成的HTML代码如下:
-`<a href="/myapp/order/list?id=3&name=4">`
+`<a th:href="@{/order/list(id=3,name=4)}">`</br>
+最后生成的HTML代码如下:</br>
+`<a href="/myapp/order/list?id=3&name=4">`</br>
 ### 使用占位符
-`<a th:href="@{/order/{id}/details(id=3,action='show_all')}">`
-最后生成的HTML代码如下:
-`<a href="/order/3/details?action=show_all">`
+`<a th:href="@{/order/{id}/details(id=3,action='show_all')}">`</br>
+最后生成的HTML代码如下:</br>
+`<a href="/order/3/details?action=show_all">`</br>
 
 ## 标签的应用
 ### 显示Bean的值
