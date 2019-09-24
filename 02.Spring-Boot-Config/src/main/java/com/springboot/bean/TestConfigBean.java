@@ -6,7 +6,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Configuration
+// 文件内容中的前缀
 @ConfigurationProperties(prefix="test")
+// 指向resources目录下的指定配置文件
 @PropertySource("classpath:test.properties")
 @Component
 public class TestConfigBean {
