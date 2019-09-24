@@ -1,0 +1,14 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="stylesheet" th:href="@{/css/main.css}" />
+<title>Spring MVC5 + Thymeleaf 表单示例</title>
+</head>
+<body>
+	<h2>绝对URL</h2>
+	<a th:href="@{https://www.baidu.com}">百度</a>
+	<h2>上下文URL</h2>
+	<a th:href="@{/account}">转到account</a>
+</body>
+</html>

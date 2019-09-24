@@ -74,7 +74,7 @@ public class ParamController {
 	 * @param password
 	 * @return
 	 */
-	@GetMapping("/noAnnoation")
+	@GetMapping("/requestBody")
 	public String test5(@RequestParam String name,@RequestParam String password) {
 		return "noAnnoation ：name : " +name+ "、password : " + password;
 	}
